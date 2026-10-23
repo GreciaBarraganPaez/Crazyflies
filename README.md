@@ -52,3 +52,6 @@ Press Esc to quit. The model file is not committed (see `.gitignore`).
 
 - Project plan, requirements and decisions: `docs/project.md`
 - Biweekly progress and AI tool use: `docs/learning-journal.md`
+
+
+TEST Grecia 
