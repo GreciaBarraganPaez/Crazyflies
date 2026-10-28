@@ -1,0 +1,22 @@
+Split: random
+Original train: 659
+Fitted train: 1318
+Test: 220
+Mirrored training: True
+Note: PILOT TEST ONLY: random frames from the same recording can appear in both train and test, so accuracy may be overly optimistic.
+
+Accuracy: 0.9909
+
+              precision    recall  f1-score   support
+
+        fist       1.00      1.00      1.00        43
+          ok       1.00      1.00      1.00        34
+         one       1.00      1.00      1.00        38
+        palm       1.00      1.00      1.00        26
+       peace       0.97      0.97      0.97        34
+       three       0.98      0.98      0.98        45
+
+    accuracy                           0.99       220
+   macro avg       0.99      0.99      0.99       220
+weighted avg       0.99      0.99      0.99       220
+
