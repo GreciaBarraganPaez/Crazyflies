@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
-"""Create a local three-Crazyflie config based on the installed Jazzy config.
+"""Generate a SEVEN-drone Crazyswarm2 simulation config from ROS Jazzy defaults.
 
-This does not modify /opt/ros or the system's default Crazyflie config.
+This never changes the ROS installation. Example radio URIs are placeholders,
+NOT verified physical drone addresses. Run with backend:=sim ONLY.
 """
 from pathlib import Path
 import copy
 import yaml
+from formations import DRONES, positions
 
 SOURCE = Path('/opt/ros/jazzy/share/crazyflie/config/crazyflies.yaml')
 DEST = Path(__file__).resolve().parent / 'config' / 'crazyflies.yaml'
-
-# 0.8 metre spacing provides clear separation for the demonstration.
-DRONES = {
-    'cf231': ('radio://0/80/2M/E7E7E7E7E7', [-0.8, 0.0, 0.0]),
-    'cf232': ('radio://0/80/2M/E7E7E7E7E8', [ 0.0, 0.0, 0.0]),
-    'cf233': ('radio://0/80/2M/E7E7E7E7E9', [ 0.8, 0.0, 0.0]),
-}
+BASE_URI = int('E7E7E7E7E7', 16)
 
 
 def main():
@@ -24,27 +20,27 @@ def main():
     with SOURCE.open(encoding='utf-8') as stream:
         config = yaml.safe_load(stream)
     if not isinstance(config, dict) or 'robot_types' not in config:
-        raise SystemExit('Unexpected ROS config structure; inspect the installed crazyflies.yaml')
-    previous_robots = config.get('robots', {})
-    if not previous_robots:
-        raise SystemExit('The installed Crazyswarm2 config contains no example robots.')
-    # Preserve the other ROS settings (robot_types, all, broadcasts, etc.).
-    template = copy.deepcopy(previous_robots.get('cf231') or next(iter(previous_robots.values())))
+        raise SystemExit('Unexpected installed crazyflies.yaml structure.')
+    original = config.get('robots', {})
+    if not original:
+        raise SystemExit('Missing robot template in the installed configuration.')
+    template = copy.deepcopy(original.get('cf231') or next(iter(original.values())))
     config['robots'] = {}
-    for name, (uri, position) in DRONES.items():
+    starting = positions('line')
+    for i, drone in enumerate(DRONES):
         robot = copy.deepcopy(template)
         robot['enabled'] = True
-        robot['uri'] = uri
-        robot['initial_position'] = position
+        robot['uri'] = f'radio://0/80/2M/{BASE_URI + i:010X}'
+        robot['initial_position'] = [starting[drone][0], 0.0, 0.0]
         robot['type'] = 'cf21'
-        config['robots'][name] = robot
+        config['robots'][drone] = robot
     DEST.parent.mkdir(parents=True, exist_ok=True)
     with DEST.open('w', encoding='utf-8') as stream:
         yaml.safe_dump(config, stream, sort_keys=False)
-    print(f'Created {DEST}')
-    for name, (uri, position) in DRONES.items():
-        print(f'  {name}: initial_position={position}, URI={uri}')
-    print('This config is for simulation only. Do not use its sample URIs for real drones.')
+    print(f'Created {DEST} with {len(DRONES)} drones: {", ".join(DRONES)}')
+    for name, robot in config['robots'].items():
+        print(f'  {name}: initial_position={robot["initial_position"]}')
+    print('SIMULATION ONLY. Placeholder radio addresses must not be used with hardware.')
 
 
 if __name__ == '__main__':
