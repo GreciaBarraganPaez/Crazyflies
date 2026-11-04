@@ -3,7 +3,7 @@
 param(
     [ValidateSet('start', 'ros', 'bridge', 'markers', 'webcam', 'menu')]
     [string]$Role = 'start',
-    [ValidateSet('animations', 'heart', 'static', 'snake')]
+    [ValidateSet('animations', 'heart', 'static', 'snake', 'snake-player')]
     [string]$FormationMode = 'animations',
     [ValidateSet('physics', 'preview')]
     [string]$SimulationProfile = 'preview',
@@ -57,7 +57,7 @@ function Run-UbuntuScript([string]$ScriptName) {
         & wsl.exe -d $Distribution -- bash $linuxScript $FormationMode
     } elseif ($ScriptName -eq 'start_ros.sh') {
         $rvizValue = if ($NoRviz) { 'False' } else { 'True' }
-        $sceneValue = if ($FormationMode -eq 'snake') { 'snake' } else { 'formations' }
+        $sceneValue = if ($FormationMode -in @('snake','snake-player')) { $FormationMode } else { 'formations' }
         & wsl.exe -d $Distribution -- bash $linuxScript $SimulationProfile $rvizValue $sceneValue
     } else {
         & wsl.exe -d $Distribution -- bash $linuxScript
@@ -69,24 +69,39 @@ function Run-UbuntuScript([string]$ScriptName) {
 
 switch ($Role) {
     'menu' {
-        Write-Host '1. Formations   2. Automatic Snake   3. Physics   4. Restart stopped bridge   5. WSL recovery   0. Exit'
+        Write-Host 'SwarmGesture optional tools' -ForegroundColor Cyan
+        Write-Host '1. Start formations (normal preview)'
+        Write-Host '2. Start automatic Snake animation'
+        Write-Host '3. Start hand-controlled Snake game'
+        Write-Host '4. Start physics simulation'
+        Write-Host '5. Restart only a stopped bridge'
+        Write-Host '6. Recover WSL graphics (stops all WSL programs; confirmation follows)'
+        Write-Host '0. Exit'
         $selection = Read-Host 'Choose an option'
         switch ($selection) {
             '1' { & $PSCommandPath -Role start }
             '2' { & $PSCommandPath -Role start -FormationMode snake }
-            '3' { & $PSCommandPath -Role start -SimulationProfile physics }
-            '4' {
-                Write-Host 'Land and stop the old bridge first. 1. Formations   2. Automatic Snake'
-                $choice = Read-Host 'Bridge mode'
-                if ($choice -eq '2') { $FormationMode = 'snake' }
+            '3' { & $PSCommandPath -Role start -FormationMode snake-player }
+            '4' { & $PSCommandPath -Role start -SimulationProfile physics }
+            '5' {
+                Write-Host 'Land and stop the old bridge with Ctrl+C first.'
+                Write-Host '1. Formations   2. Automatic Snake   3. Hand Snake'
+                $bridgeMode = Read-Host 'Bridge mode'
+                switch ($bridgeMode) {
+                    '1' { $FormationMode = 'animations' }
+                    '2' { $FormationMode = 'snake' }
+                    '3' { $FormationMode = 'snake-player' }
+                    default { Write-Host 'No bridge started.'; return }
+                }
                 Launch-Window 'bridge'
             }
-            '5' { & (Join-Path $PSScriptRoot 'Start-SwarmGesture-Clean.cmd') }
+            '6' { & (Join-Path $PSScriptRoot 'Start-SwarmGesture-Clean.cmd') }
             '0' { return }
+            default { Write-Host 'No action selected.' }
         }
     }
     'start' {
-        if ($FormationMode -eq 'snake' -and $SimulationProfile -ne 'preview') {
+        if ($FormationMode -in @('snake','snake-player') -and $SimulationProfile -ne 'preview') {
             throw 'Snake currently supports only the ideal preview profile.'
         }
         $required = @(
@@ -117,6 +132,7 @@ switch ($Role) {
             'simulation\launch\start_bridge.sh',
             'simulation\launch\start_markers.sh',
             'app\gesture_sender.py',
+            'app\hand_steering.py',
             'app\gesture_features.py',
             'app\gesture_gate.py',
             'models\hand_landmarker.task',
@@ -127,6 +143,11 @@ switch ($Role) {
                 'simulation\visualization\snake_markers.py','simulation\launch\start_snake_markers.sh',
                 'simulation\runtime\snake_scene.py','simulation\scenes\snake.py',
                 'simulation\scenes\__init__.py','simulation\scenes\snake_routes.py','simulation\scenes\trajectories.py','simulation\config\snake-smooth.rviz')
+        }
+        if ($FormationMode -eq 'snake-player') {
+            $required += @('simulation\controllers\play_snake_controller.py','simulation\servers\play_snake_server.py','simulation\visualization\play_snake_markers.py',
+                'simulation\scenes\play_snake.py','simulation\runtime\play_snake.py',
+                'simulation\config\snake-player.yaml','simulation\config\snake-player.rviz','simulation\launch\start_play_snake_markers.sh')
         }
         foreach ($relativePath in $required) {
             $fullPath = Join-Path $ProjectRoot $relativePath
@@ -141,7 +162,7 @@ switch ($Role) {
             exit 1
         }
 
-        $fleetCount = 19
+        $fleetCount = if ($FormationMode -eq 'snake-player') { 8 } else { 19 }
         Write-Host "Starting SwarmGesture ($fleetCount drones, formation mode=$FormationMode, profile=$SimulationProfile, simulation only)..."
         Test-WSLg
         & wsl.exe -d $Distribution -- pgrep -f '^(/usr/bin/python3 /opt/ros/jazzy/lib/crazyflie_sim/crazyflie_server|/usr/bin/python3 .*/(preview_server|snake_preview_server|play_snake_server)\.py|(/usr/bin/python3|python3) -m simulation\.servers\.(preview_server|snake_preview_server|play_snake_server))( |$)' | Out-Null
@@ -165,7 +186,7 @@ switch ($Role) {
     }
     'ros' {
         $Host.UI.RawUI.WindowTitle = "SwarmGesture 1 - ROS + RViz ($SimulationProfile)"
-        $fleetCount = 19
+        $fleetCount = if ($FormationMode -eq 'snake-player') { 8 } else { 19 }
         Write-Host "ROS + RViz ($fleetCount simulated drones), profile=$SimulationProfile" -ForegroundColor Cyan
         Run-UbuntuScript 'start_ros.sh'
     }
@@ -181,12 +202,18 @@ switch ($Role) {
             Write-Host 'Autonomous grid Snake: one=takeoff; peace/three/OK=start; fist=grid; palm=land.' -ForegroundColor Cyan
             Write-Host 'Keyboard: snake=start; grid; count 3..15 or seed INTEGER while grounded; status.' -ForegroundColor Cyan
         }
+        if ($FormationMode -eq 'snake-player') {
+            Write-Host 'Hand Snake: 8 drones, one snake. Peace=start; point one finger and move hand left/right/up/down.' -ForegroundColor Cyan
+            Write-Host 'Fist=grid; palm=land. Steer early: smooth turns are planned ahead.' -ForegroundColor Cyan
+        }
         Run-UbuntuScript 'start_bridge.sh'
     }
     'markers' {
         $Host.UI.RawUI.WindowTitle = 'SwarmGesture 3 - Colored Drones'
         Write-Host 'Publishing pose-synchronized animated colors to RViz.' -ForegroundColor Cyan
-        if ($FormationMode -eq 'snake') { Run-UbuntuScript 'start_snake_markers.sh' } else { Run-UbuntuScript 'start_markers.sh' }
+        if ($FormationMode -eq 'snake-player') { Run-UbuntuScript 'start_play_snake_markers.sh' }
+        elseif ($FormationMode -eq 'snake') { Run-UbuntuScript 'start_snake_markers.sh' }
+        else { Run-UbuntuScript 'start_markers.sh' }
     }
     'webcam' {
         $Host.UI.RawUI.WindowTitle = 'SwarmGesture 4 - Webcam'
@@ -203,6 +230,7 @@ switch ($Role) {
         Write-Host "Sending to WSL at $WSL_IP" -ForegroundColor Cyan
         Write-Host 'Click inside the camera window and press E to enable sending.' -ForegroundColor Cyan
         $senderArgs = @('-m','app.gesture_sender','--model','models/gesture_svm_mirrored.joblib','--send','--host',$WSL_IP)
+        if ($FormationMode -eq 'snake-player') { $senderArgs += '--snake-player' }
         & python @senderArgs
         if ($LASTEXITCODE -ne 0) {
             Write-Host 'Webcam exited with an error; inspect the lines above.' -ForegroundColor Yellow

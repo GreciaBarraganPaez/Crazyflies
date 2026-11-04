@@ -19,3 +19,11 @@ class FakeFleet:
 
 class FakeSwarm:
     def __init__(self): self.allcfs=FakeFleet()
+
+def scripted_direction(scene):
+    """A deliberate test-only route collecting the five fixed apples."""
+    if scene.score==0:return 'right'
+    if scene.score==1:return 'left' if scene.trail[-1][1]>=6 else 'up'
+    if scene.score<3:return 'left'
+    if scene.score==3:return 'right' if scene.trail[-1][1]<=1 else 'down'
+    return 'right'

@@ -20,10 +20,10 @@ CONFIG_DIR=PROJECT_ROOT/'simulation'/'config'
 
 def setup(context):
     scene=LaunchConfiguration('scene').perform(context)
-    if scene not in ('formations','snake'):raise ValueError('Unknown preview scene')
-    server={'formations':'preview_server','snake':'snake_preview_server'}[scene]
+    if scene not in ('formations','snake','snake-player'):raise ValueError('Unknown preview scene')
+    server={'formations':'preview_server','snake':'snake_preview_server','snake-player':'play_snake_server'}[scene]
     share = Path(get_package_share_directory('crazyflie'))
-    robot_file=LaunchConfiguration('crazyflies_yaml_file').perform(context)
+    robot_file=CONFIG_DIR/'snake-player.yaml' if scene=='snake-player' else LaunchConfiguration('crazyflies_yaml_file').perform(context)
     with open(robot_file) as source:
         robots = yaml.safe_load(source)
     with open(share / 'config' / 'server.yaml') as source:

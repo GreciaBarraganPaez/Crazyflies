@@ -14,6 +14,7 @@ case "$mode" in
     heart) controller=heart_animation_bridge ;;
     static) controller=gesture_bridge ;;
     snake) controller=snake_controller ;;
+    snake-player) controller=play_snake_controller ;;
     *) echo "Unknown formation mode: $mode (expected animations, heart, static or snake)" >&2; exit 2 ;;
 esac
 echo "SwarmGesture bridge: mode=$mode; controller=$controller"
