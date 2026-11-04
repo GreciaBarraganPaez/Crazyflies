@@ -1,0 +1,32 @@
+{
+  "result": "passed",
+  "actual_drones": 8,
+  "maximum_snakes": 1,
+  "initial_members": 3,
+  "apples_collected_first_game": 5,
+  "head_identity_changes": [
+    3,
+    4,
+    5,
+    7,
+    6,
+    3,
+    3
+  ],
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "minimum_center_spacing_m": 0.7000000521590791,
+  "minimum_body_speed_m_s": 0.4419417382415922,
+  "automatic_grid_return": true,
+  "restart_from_grid": true,
+  "palm_during_growth_landed": true,
+  "blocked_path_returns_to_grid": true,
+  "manual_rearm_after_landing": true,
+  "deadline_fallbacks": 0,
+  "commands_streamed_per_frame": false,
+  "simulated_seconds": 135.59999999999556
+}

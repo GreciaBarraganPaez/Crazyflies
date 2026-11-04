@@ -1,0 +1,20 @@
+{
+  "result": "passed",
+  "speed": 1.25,
+  "demo_rounds": 1,
+  "seed": 20261102,
+  "completed_transitions": 5,
+  "simulated_seconds": 100.51999999999714,
+  "minimum_center_spacing_m": 0.5561679881607019,
+  "minimum_airborne_height_m": 0.6359999775886536,
+  "wave_color_frames": 577,
+  "targets": [
+    "sine",
+    "spiral",
+    "moon",
+    "helix",
+    "heart"
+  ],
+  "helix_frames": 601,
+  "helix_drone_depth_range_m": 2.799944519996643
+}

@@ -1,0 +1,12 @@
+{
+  "simulation/scenes/snake.py": "98a6e6307b55ed6fa598eb827a1318942a9b064b31d17f1cdb7e10f4576d2598",
+  "simulation/scenes/snake_routes.py": "df45f3eee38028f0b3b95e85e0941f322c516d465917c1fc1c1e140a19d350fe",
+  "simulation/runtime/snake_scene.py": "99e4d5ec6c9c2735cf85adec5d99d6b816158dc88bc27736d83fd225905df1e0",
+  "simulation/snake_controller.py": "8634810f86c22f20db5e172e7c1d02c18bd19af7ca665eb161a978aec7a3d5e8",
+  "simulation/snake_preview_server.py": "0f63a322f43c8ba7f946d0ea54f8081cea913564a418418bea0737fceb5b80b6",
+  "simulation/snake_markers.py": "89d5b5b7e6b1e07a8c273ad86e649cf57786662a3c93d89a9e44f0d261b439ab",
+  "simulation/gesture_bridge.py": "77fb95dcb43e1f42cebed08de5dd017649e3961e03c652be6f745dc17c4e5331",
+  "gesture_sender.py": "f2b33c39ceae0ee882306ddf52961e3255203382d606a4d2b2f396678bec76da",
+  "Start-SwarmGesture.ps1": "57485bff5b041c350ef331bd5a52e527d71f9fd9d5ee31e97d51223270b65907",
+  "docs/snake.md": "df8dd1c5036c4b095ccd165f62a6ca5b7eec30317945210c850c0bce7ed38e53"
+}

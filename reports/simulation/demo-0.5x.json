@@ -1,0 +1,17 @@
+{
+  "result": "passed",
+  "speed": 0.5,
+  "demo_rounds": 1,
+  "seed": 20261102,
+  "completed_transitions": 4,
+  "simulated_seconds": 139.83999999999773,
+  "minimum_center_spacing_m": 0.5561680049314008,
+  "minimum_airborne_height_m": 0.6359999775886536,
+  "wave_color_frames": 1203,
+  "targets": [
+    "sine",
+    "spiral",
+    "moon",
+    "heart"
+  ]
+}

@@ -1,3 +1,5 @@
+> Historical planning snapshot (27 October 2026). Current implemented behavior is documented in [the project README](../README.md). Original milestones and progress statements below are retained for provenance.
+
 # SwarmGesture — Gesture-Controlled Crazyflie Swarm
 
 **Course project | Winter semester 2026/27**  

@@ -1,0 +1,11 @@
+{
+  "data/landmarks/p01/fist.csv": "783c52f16c756647c5a5f069e2a0da0fd4678ec0b350d70370c7da66ed7556f9",
+  "data/landmarks/p01/ok.csv": "d5f5db5e9f1614193e9f7172b1e6f19454d421f72131593cc6fd3ed6a44ac22a",
+  "data/landmarks/p01/one.csv": "3121afdbd68e7e64448e6d0445473cc733bc334c401245a86a5655a0b7eba1a4",
+  "data/landmarks/p01/palm.csv": "42d3bba32bba01bdedf5e7ae3f61adfe165df14e026315f81e77ba9d4771f011",
+  "data/landmarks/p01/peace.csv": "3d4083f3db5fd1e571b8fd2305da782282b0b1dc5e772d706a33081e49ebd792",
+  "data/landmarks/p01/three.csv": "b4a52a4fde603c00cd2a3f7d4a874be83c6bf5bd52b8f8b378d9f12de6738e64",
+  "models/gesture_svm.joblib": "c7f523f77ad98bef1780cf1396378700398d30b0b35fbd76e39852535ecb3b9a",
+  "models/gesture_svm_mirrored.joblib": "c0483ad0091c744eb10dde5d050a8684d8b5fc20c06ec39647cb55e2acbba53f",
+  "hand_landmarker.task": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+}

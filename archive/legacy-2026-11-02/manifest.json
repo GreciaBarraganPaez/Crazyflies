@@ -1,0 +1,92 @@
+[
+  {
+    "action": "archived",
+    "source": "gesture_bridge.py",
+    "destination": "archive\\legacy-2026-11-02\\gesture_bridge.py",
+    "sha256": "BB2AC7A05A0B6567C5E52E14D6EAE413914EB9BF740D97B45FAED80A52DC58A7"
+  },
+  {
+    "action": "archived",
+    "source": "drone_markers.py",
+    "destination": "archive\\legacy-2026-11-02\\drone_markers.py",
+    "sha256": "FAADCD3BC184596FD3C656A54E93173C039F5183E29F8F81FCB1D37653B234AA"
+  },
+  {
+    "action": "archived",
+    "source": "formation_preview.png",
+    "destination": "archive\\legacy-2026-11-02\\formation_preview.png",
+    "sha256": "938F53FC8BA5080108A5398EA380591708D7EBAADB2C25252E1E538721D9015C"
+  },
+  {
+    "action": "archived",
+    "source": "static_shapes_preview.png",
+    "destination": "archive\\legacy-2026-11-02\\static_shapes_preview.png",
+    "sha256": "95F6192ACC9B64CF3EB235DA9108A9457BC93735B71541B2DF33C0077DABC7FB"
+  },
+  {
+    "action": "archived",
+    "source": "Start-SwarmGesture-Preview.cmd",
+    "destination": "archive\\legacy-2026-11-02\\Start-SwarmGesture-Preview.cmd",
+    "sha256": "8DBC7AE6A5DEA1811B47C8471766284863C331F8BACF1E7E9049B1F5E5A25358"
+  },
+  {
+    "action": "archived",
+    "source": "simulation\\formations.py",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\formations.py",
+    "sha256": "DF1ACDFB0E42C57F1661957196F8A13ED37CCFFC56D279D9CC65924BEF6DA107"
+  },
+  {
+    "action": "archived",
+    "source": "simulation\\formation_demo.py",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\formation_demo.py",
+    "sha256": "0E3E59B0672EA60952236B5402C7019B5C86F200E06A2CCD9FB9F035B66F7B4D"
+  },
+  {
+    "action": "archived",
+    "source": "simulation\\animations.py",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\animations.py",
+    "sha256": "9BA69F54B7219F83E7C81FD9E15FAEF384A008EAE099A8DAC8EB8B1976142658"
+  },
+  {
+    "action": "archived",
+    "source": "simulation\\test_gesture_bridge.py",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\test_gesture_bridge.py",
+    "sha256": "94B13491B797D49EB9459FD808155A4ABE436CB4DB52C99EBE49A1FF9BB96406"
+  },
+  {
+    "action": "archived",
+    "source": "simulation\\test_phase1.py",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\test_phase1.py",
+    "sha256": "76307734F076F4AF3D667A4C5DE791CC45DBD06BCFA891BC397BEBE22E974C31"
+  },
+  {
+    "action": "archived",
+    "source": "simulation\\README_ANIMATION_FIX.md",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\README_ANIMATION_FIX.md",
+    "sha256": "2C6A4676E37C062DFAE28ACCF05795A1CD9ED00BDF232882B246BA244440BC0A"
+  },
+  {
+    "action": "historical documentation copy",
+    "source": "README.md",
+    "destination": "archive\\legacy-2026-11-02\\README.md",
+    "sha256": "CE44B090D36CA14BE359EAD2FD21D2BC6F96FD12A716EF9E980BF42282C2F5AA"
+  },
+  {
+    "action": "historical documentation copy",
+    "source": "docs\\gesture-control.md",
+    "destination": "archive\\legacy-2026-11-02\\docs\\gesture-control.md",
+    "sha256": "6CA9C802E9E24260FF487F0E6198D6EA025A1DDE86EC4011817D6DDF6255E65F"
+  },
+  {
+    "action": "historical documentation copy",
+    "source": "simulation\\README.md",
+    "destination": "archive\\legacy-2026-11-02\\simulation\\README.md",
+    "sha256": "F1F1C4FEEE4F1DA19F2AED3CB313362766F68607101ED8B9BF7EDA1E3050BB97"
+  },
+  {
+    "action": "relocated",
+    "source": "project.md",
+    "destination": "docs\\project.md",
+    "sha256": "27D574121BA1A618F2B84C6CEFE98E727D4790C9CEAC97D97ED7E7390B3CEC22"
+  }
+]

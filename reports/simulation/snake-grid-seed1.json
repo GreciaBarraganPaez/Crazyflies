@@ -1,0 +1,17 @@
+{
+  "result": "passed",
+  "mode": "autonomous_grid",
+  "limit": 19,
+  "seed": 1,
+  "peak_chain": 19,
+  "simulated_seconds": 268.220000000046,
+  "minimum_center_spacing_m": 0.7000217533088705,
+  "grid_frames": 11010,
+  "turns": 32,
+  "collections": 17,
+  "first_game_collections": 16,
+  "interrupted_growth_landed": true,
+  "grid_return_and_restart": true,
+  "manual_rearm_after_landing": true,
+  "commands_streamed_per_frame": false
+}

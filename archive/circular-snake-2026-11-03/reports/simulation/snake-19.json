@@ -1,0 +1,12 @@
+{
+  "result": "passed",
+  "limit": 19,
+  "peak_chain": 19,
+  "simulated_seconds": 488.07999999984605,
+  "minimum_center_spacing_m": 0.5385054742762901,
+  "loop_frames": 12924,
+  "collections": 16,
+  "interrupted_pickup_landed": true,
+  "grid_return_and_restart": true,
+  "commands_streamed_per_frame": false
+}

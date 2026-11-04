@@ -1,0 +1,194 @@
+[
+  {
+    "path": "Start-SwarmGesture.cmd",
+    "sha256": "2630ac99c7549226c8b638c8ff4fa73b092d82de10b099c9b4ba17c6efd5c079"
+  },
+  {
+    "path": "Start-SwarmGesture.ps1",
+    "sha256": "c3370dadeb482d67179cdbbea481f9fa3b7fe375d2496132181eeba9149b856b"
+  },
+  {
+    "path": "Restart-SwarmGesture-Bridge.cmd",
+    "sha256": "094ddce6761cdaacc03395aed264e747bfd81e20c4cf1c7c28af666ca182fc78"
+  },
+  {
+    "path": "Start-SwarmGesture-Physics.cmd",
+    "sha256": "5f45ae97fbb527e951b32e7eeeb3ea0a6edcf91c016999cc943606ef68e4c6c0"
+  },
+  {
+    "path": "simulation/blended_transitions.py",
+    "sha256": "a19442e8fbef97bc1829ed62f10981733aeffbbefd96e5c51e4dc50490f266b8"
+  },
+  {
+    "path": "simulation/check_blended_preview.py",
+    "sha256": "bb7ba8df7356555e76acf40930a373dac13b4231b682a93bd43717ea1f3b3e18"
+  },
+  {
+    "path": "simulation/check_continuous_backend.py",
+    "sha256": "c46a95df2eead80734ceecef28855099528683d0b698e767da3662e6dc23b049"
+  },
+  {
+    "path": "simulation/check_heart_backend.py",
+    "sha256": "08aa83d9fbe8a75253180a1ba14c22665db2904f63b35caac1cf24c950de25f7"
+  },
+  {
+    "path": "simulation/check_live_preview.py",
+    "sha256": "88d83f0e568c2a824bde18fbaf357486b181a4a8044193212bbff24fa011a352"
+  },
+  {
+    "path": "simulation/choreography_preview.launch.py",
+    "sha256": "55a1f6d005dbb250b89ef9c401bf3c2b39566a7b1cda556b1056b5b317f5fb40"
+  },
+  {
+    "path": "simulation/configure_swarm.py",
+    "sha256": "084c2cc0110ac807507e41a7154a1d67675dc966d8a3ff8b78e2e3a84c002601"
+  },
+  {
+    "path": "simulation/continuous_trajectories.py",
+    "sha256": "c2297f635f431dbbfc79bf2904099bfc88b44691b4b28696037ceccebc8d6492"
+  },
+  {
+    "path": "simulation/drone_markers.py",
+    "sha256": "3948b6f387d47f68b23917a5d0d320917843e6e298f0c424623da9ce8d62202b"
+  },
+  {
+    "path": "simulation/formation_animation_bridge.py",
+    "sha256": "4b4266afee5f63dfd92b7ac03433cb2ec132d8131a59a2f44547042b31f58c9e"
+  },
+  {
+    "path": "simulation/formation_colors.py",
+    "sha256": "e95e9c522d47ac60a24bac44102514c25a621bbb3c2822dc6f022feb28ba6343"
+  },
+  {
+    "path": "simulation/formation_registry.py",
+    "sha256": "c6bb9960994576ece1402fc7ba8c4fc000acdd51ba1a3687d894d408408d8096"
+  },
+  {
+    "path": "simulation/gesture_bridge.py",
+    "sha256": "77fb95dcb43e1f42cebed08de5dd017649e3961e03c652be6f745dc17c4e5331"
+  },
+  {
+    "path": "simulation/heart_animation_bridge.py",
+    "sha256": "56eb6a75f4a348fe4b4b3f206235e1b61f4204dc85542336a9b7d28949aafa13"
+  },
+  {
+    "path": "simulation/playback_controls.py",
+    "sha256": "231540d5f8c6dca0ddd9c9e8eef8562fa269c10e0c985f87602f708bbd8c4541"
+  },
+  {
+    "path": "simulation/preview_server.py",
+    "sha256": "693b8dfb8c9fb6dc0ed336edf1b2b6ea764b073b212fe67b467fe9c372608f62"
+  },
+  {
+    "path": "simulation/send_test_gesture.py",
+    "sha256": "c3aa314f82662655a034ce95304f4a115e4b4b91af5d0ba26e36ef569c5de366"
+  },
+  {
+    "path": "simulation/smooth_animation_bridge.py",
+    "sha256": "b760c9cbe5c3f343fa7443d7343fbbbbc8bbb3e585e92b5ef265f6abd269582f"
+  },
+  {
+    "path": "simulation/static_shapes.py",
+    "sha256": "fe4f18e3b108952d52ef017bba83c9dc8185142ad5610c95532a118058bd3f87"
+  },
+  {
+    "path": "simulation/test_blended_controller.py",
+    "sha256": "71b04208ca36b0dc454b44c74b365e4c0f5c73f69c5d7c06dfb42455b200b1b6"
+  },
+  {
+    "path": "simulation/test_blended_transitions.py",
+    "sha256": "f61ea8dd14c0bce6d2b80a26633f9b6dc1048b2369a44e846afb155f7d36bcc8"
+  },
+  {
+    "path": "simulation/test_continuous_trajectories.py",
+    "sha256": "79fe1552865039b255e8757f18ee2491df574ee0fdbb9f6f29a77d4c6df54b9b"
+  },
+  {
+    "path": "simulation/test_formation_animation.py",
+    "sha256": "c151401e9ccbc34207e611ff3e31ab2f3edc1cea52084d1b4c270e144c964125"
+  },
+  {
+    "path": "simulation/test_formation_colors.py",
+    "sha256": "8d8676a5e2a51a566362bce4223271675352b7a6b8ff8b3b602472aa3f9e9a6a"
+  },
+  {
+    "path": "simulation/test_gesture_gate.py",
+    "sha256": "09e9ef1475eed9df7b1087b9e791f3dbd18aec524224c8312e8160f9aa91dedd"
+  },
+  {
+    "path": "simulation/test_heart_animation.py",
+    "sha256": "f3c5e6cfa7c338f363f4a25d8f4242daf2ef3549905f39fbb07ed8b5b194079e"
+  },
+  {
+    "path": "simulation/test_playback_controls.py",
+    "sha256": "263dbdfba61fd1c0a7604f4245a299ff4d69447c63456a3598f27b3bea140a48"
+  },
+  {
+    "path": "simulation/test_smooth_controller.py",
+    "sha256": "8f841cf1e5c0729c648852c7b267a362dbf3f0c23265fa91507e91261f7a32ec"
+  },
+  {
+    "path": "simulation/test_static_shapes.py",
+    "sha256": "17e576c000e55f5b154c22d124cb463affd7a491d94784d64d4bbbde84be62b0"
+  },
+  {
+    "path": "simulation/test_transitions.py",
+    "sha256": "e2d4713b4239bb129e641f426d91a059780700eceeb06581e829e45643b9ec93"
+  },
+  {
+    "path": "simulation/transition_planner.py",
+    "sha256": "54c918a117b138f8025f0c0b2b75c2ef10451055ce05a8a483ed1f697dc291a0"
+  },
+  {
+    "path": "simulation/start_bridge.sh",
+    "sha256": "47a4197aeefb070ffeb6fb19fc202a4b020d6fe9abb01f6fdd706c63a76698d3"
+  },
+  {
+    "path": "simulation/start_markers.sh",
+    "sha256": "3d287fc54461b3e8c8b13e43b9242b5faa3f480a05c7672babfc91fa1766ab01"
+  },
+  {
+    "path": "simulation/start_ros.sh",
+    "sha256": "9b83f596baef650e77dad7476a8c485332ba9a2ea1b097017a089eef260e2899"
+  },
+  {
+    "path": "simulation/formations/__init__.py",
+    "sha256": "a883789b6e0aa5ec5be9d727a3f08759e73929c41bb41fa595548ae8b9293dde"
+  },
+  {
+    "path": "simulation/formations/heart.py",
+    "sha256": "b2843d26bab51976b81ab0b7bdaa3c4cc8a348a6348e37d6a0fa8ecf82a20830"
+  },
+  {
+    "path": "simulation/formations/moon.py",
+    "sha256": "c51319c2cce51d585ec04f23f0ccf90516a1a2a5c72f36f7bcab76eed1fdbf72"
+  },
+  {
+    "path": "simulation/formations/sine.py",
+    "sha256": "14273573f985fe61f82d43188f641387b6ca18718c2209e46db0a6a99479a3cc"
+  },
+  {
+    "path": "simulation/formations/spiral.py",
+    "sha256": "d8b2b17900fe5a0bf4b824c3898c852981fac56b2ef72e8f1c5d39e93070b825"
+  },
+  {
+    "path": "simulation/runtime/__init__.py",
+    "sha256": "847e84565705ac882d09fbe885014917ebe01f27b04db54a1f236ec53f30037e"
+  },
+  {
+    "path": "simulation/runtime/playback.py",
+    "sha256": "60ad7a610a595962da09eb82a6f9f2ef46d9bf44524d6e7a9fc9b422702c054d"
+  },
+  {
+    "path": "simulation/runtime/joined_transitions.py",
+    "sha256": "05af23ff80034b886f5fc09dd1500b9a94fdcd3644aa0332b14a08abf8e1959c"
+  },
+  {
+    "path": "simulation/config/crazyflies.yaml",
+    "sha256": "72ecd70c1881b4178cce4606d647f126adc9c429222acb2568f8b1b07855f02b"
+  },
+  {
+    "path": "simulation/config/swarmgesture.rviz",
+    "sha256": "9d46e052a5cd1f203a63bcdaa84c77462a357a40e605492098f925e0fd15e248"
+  }
+]

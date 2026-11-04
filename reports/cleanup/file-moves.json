@@ -1,0 +1,19 @@
+{
+  "gesture_sender.py": "app/gesture_sender.py",
+  "gesture_features.py": "app/gesture_features.py",
+  "gesture_gate.py": "app/gesture_gate.py",
+  "hand_steering.py": "app/hand_steering.py",
+  "hand_tracker.py": "tools/gestures/hand_tracker.py",
+  "predict_live.py": "tools/gestures/predict_live.py",
+  "record_gestures.py": "tools/gestures/record_gestures.py",
+  "train_model.py": "tools/gestures/train_model.py",
+  "Restart-SwarmGesture-Bridge.cmd": "tools/launch/Restart-SwarmGesture-Bridge.cmd",
+  "Restart-SwarmGesture-Snake-Bridge.cmd": "tools/launch/Restart-SwarmGesture-Snake-Bridge.cmd",
+  "Start-SwarmGesture-Clean.cmd": "tools/launch/Start-SwarmGesture-Clean.cmd",
+  "Start-SwarmGesture-Physics.cmd": "tools/launch/Start-SwarmGesture-Physics.cmd",
+  "Start-SwarmGesture-Snake-Player.cmd": "tools/launch/Start-SwarmGesture-Snake-Player.cmd",
+  "Start-SwarmGesture-Snake.cmd": "tools/launch/Start-SwarmGesture-Snake.cmd",
+  "Start-SwarmGesture.ps1": "tools/launch/Start-SwarmGesture.ps1",
+  "LAUNCHER_README.md": "docs/launching.md",
+  "hand_landmarker.task": "models/hand_landmarker.task"
+}

@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "mode": "smooth_head_growth",
+  "limit": 8,
+  "seed": 31,
+  "initial_apples": 5,
+  "border_drones": 4,
+  "peak_chain": 8,
+  "automatic_split": false,
+  "final_snake_lengths": [
+    8
+  ],
+  "minimum_splitting_body_speed_m_s": null,
+  "simulated_seconds": 116.59999999999394,
+  "minimum_center_spacing_m": 0.7000038396528339,
+  "minimum_playing_body_speed_m_s": 0.5303300858899106,
+  "moving_frames": 3600,
+  "head_identity_changes": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    3
+  ],
+  "deadline_fallbacks": 0,
+  "collections": 6,
+  "first_game_collections": 5,
+  "interrupted_split_landed": false,
+  "interrupted_growth_landed": true,
+  "grid_return_and_restart": true,
+  "automatic_grid_return": true,
+  "manual_rearm_after_landing": true,
+  "commands_streamed_per_frame": false
+}
