@@ -3,7 +3,7 @@
 param(
     [ValidateSet('start', 'ros', 'bridge', 'markers', 'webcam', 'menu')]
     [string]$Role = 'start',
-    [ValidateSet('animations', 'heart', 'static')]
+    [ValidateSet('animations', 'heart', 'static', 'snake')]
     [string]$FormationMode = 'animations',
     [ValidateSet('physics', 'preview')]
     [string]$SimulationProfile = 'preview',
@@ -57,7 +57,7 @@ function Run-UbuntuScript([string]$ScriptName) {
         & wsl.exe -d $Distribution -- bash $linuxScript $FormationMode
     } elseif ($ScriptName -eq 'start_ros.sh') {
         $rvizValue = if ($NoRviz) { 'False' } else { 'True' }
-        $sceneValue = 'formations'
+        $sceneValue = if ($FormationMode -eq 'snake') { 'snake' } else { 'formations' }
         & wsl.exe -d $Distribution -- bash $linuxScript $SimulationProfile $rvizValue $sceneValue
     } else {
         & wsl.exe -d $Distribution -- bash $linuxScript
@@ -69,17 +69,26 @@ function Run-UbuntuScript([string]$ScriptName) {
 
 switch ($Role) {
     'menu' {
-        Write-Host '1. Formations   2. Physics   3. Restart stopped bridge   4. WSL recovery   0. Exit'
+        Write-Host '1. Formations   2. Automatic Snake   3. Physics   4. Restart stopped bridge   5. WSL recovery   0. Exit'
         $selection = Read-Host 'Choose an option'
         switch ($selection) {
             '1' { & $PSCommandPath -Role start }
-            '2' { & $PSCommandPath -Role start -SimulationProfile physics }
-            '3' { Write-Host 'Land and stop the old bridge first.'; Launch-Window 'bridge' }
-            '4' { & (Join-Path $PSScriptRoot 'Start-SwarmGesture-Clean.cmd') }
+            '2' { & $PSCommandPath -Role start -FormationMode snake }
+            '3' { & $PSCommandPath -Role start -SimulationProfile physics }
+            '4' {
+                Write-Host 'Land and stop the old bridge first. 1. Formations   2. Automatic Snake'
+                $choice = Read-Host 'Bridge mode'
+                if ($choice -eq '2') { $FormationMode = 'snake' }
+                Launch-Window 'bridge'
+            }
+            '5' { & (Join-Path $PSScriptRoot 'Start-SwarmGesture-Clean.cmd') }
             '0' { return }
         }
     }
     'start' {
+        if ($FormationMode -eq 'snake' -and $SimulationProfile -ne 'preview') {
+            throw 'Snake currently supports only the ideal preview profile.'
+        }
         $required = @(
             'simulation\config\crazyflies.yaml',
             'simulation\config\swarmgesture.rviz',
@@ -113,6 +122,12 @@ switch ($Role) {
             'models\hand_landmarker.task',
             'models\gesture_svm_mirrored.joblib'
         )
+        if ($FormationMode -eq 'snake') {
+            $required += @('simulation\controllers\snake_controller.py','simulation\servers\snake_preview_server.py',
+                'simulation\visualization\snake_markers.py','simulation\launch\start_snake_markers.sh',
+                'simulation\runtime\snake_scene.py','simulation\scenes\snake.py',
+                'simulation\scenes\__init__.py','simulation\scenes\snake_routes.py','simulation\scenes\trajectories.py','simulation\config\snake-smooth.rviz')
+        }
         foreach ($relativePath in $required) {
             $fullPath = Join-Path $ProjectRoot $relativePath
             if (-not (Test-Path -LiteralPath $fullPath)) {
@@ -162,12 +177,16 @@ switch ($Role) {
         if ($FormationMode -eq 'animations') {
             Write-Host 'Preview: speed 0.5..1.25 while grounded; moon, helix or demo / demo off after takeoff; status.' -ForegroundColor Cyan
         }
+        if ($FormationMode -eq 'snake') {
+            Write-Host 'Autonomous grid Snake: one=takeoff; peace/three/OK=start; fist=grid; palm=land.' -ForegroundColor Cyan
+            Write-Host 'Keyboard: snake=start; grid; count 3..15 or seed INTEGER while grounded; status.' -ForegroundColor Cyan
+        }
         Run-UbuntuScript 'start_bridge.sh'
     }
     'markers' {
         $Host.UI.RawUI.WindowTitle = 'SwarmGesture 3 - Colored Drones'
         Write-Host 'Publishing pose-synchronized animated colors to RViz.' -ForegroundColor Cyan
-        Run-UbuntuScript 'start_markers.sh'
+        if ($FormationMode -eq 'snake') { Run-UbuntuScript 'start_snake_markers.sh' } else { Run-UbuntuScript 'start_markers.sh' }
     }
     'webcam' {
         $Host.UI.RawUI.WindowTitle = 'SwarmGesture 4 - Webcam'

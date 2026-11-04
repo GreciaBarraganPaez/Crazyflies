@@ -33,12 +33,13 @@ fi
 profile="${1:-preview}"
 rviz="${2:-True}"
 scene="${3:-formations}"
-case "$scene" in formations) ;; *) echo "Unknown scene: $scene" >&2; exit 2 ;; esac
+case "$scene" in formations|snake) ;; *) echo "Unknown scene: $scene" >&2; exit 2 ;; esac
 if [[ "$scene" != formations && "$profile" != preview ]]; then echo "Snake requires preview" >&2; exit 2; fi
 case "$rviz" in True|False) ;; *) echo "rviz must be True or False" >&2; exit 2 ;; esac
 if [[ "$profile" == preview ]]; then
     echo 'CHOREOGRAPHY PREVIEW: ideal motion, paced at ~real time; no physics simulation.'
     rviz_config="$(realpath simulation/config/swarmgesture.rviz)"
+    if [[ "$scene" == snake ]]; then rviz_config="$(realpath simulation/config/snake-smooth.rviz)"; fi
     exec ros2 launch ./simulation/launch/choreography_preview.launch.py "rviz:=$rviz" "scene:=$scene" "rviz_config_file:=$rviz_config"
 elif [[ "$profile" != physics ]]; then
     echo "Unknown simulation profile: $profile" >&2

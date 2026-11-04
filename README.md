@@ -22,3 +22,5 @@ From this folder:
 
 This is ideal preview only. Planned center spacing does not establish hardware
 rotor clearance or real flight safety. Existing manual arming is required.
+
+Automatic Snake is available through SwarmGesture-Tools.cmd or tools/launch/Start-SwarmGesture-Snake.cmd. It starts with three snake drones, twelve apples and four borders, splits at nine, and returns to the airborne grid on completion. See docs/snake.md.
