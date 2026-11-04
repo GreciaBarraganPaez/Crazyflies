@@ -1,0 +1,1 @@
+"""SwarmGesture visualization package."""

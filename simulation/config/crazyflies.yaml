@@ -4,56 +4,152 @@ robots:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7E7
     initial_position:
-    - -2.4000000000000004
-    - 0.0
+    - -2.75
+    - -1.3
     - 0.0
     type: cf21
   cf232:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7E8
     initial_position:
-    - -1.6
-    - 0.0
+    - -1.65
+    - -1.3
     - 0.0
     type: cf21
   cf233:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7E9
     initial_position:
-    - -0.8
-    - 0.0
+    - -0.55
+    - -1.3
     - 0.0
     type: cf21
   cf234:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7EA
     initial_position:
-    - 0.0
-    - 0.0
+    - 0.55
+    - -1.3
     - 0.0
     type: cf21
   cf235:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7EB
     initial_position:
-    - 0.8
-    - 0.0
+    - 1.65
+    - -1.3
     - 0.0
     type: cf21
   cf236:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7EC
     initial_position:
-    - 1.6
-    - 0.0
+    - 2.75
+    - -1.3
     - 0.0
     type: cf21
   cf237:
     enabled: true
     uri: radio://0/80/2M/E7E7E7E7ED
     initial_position:
-    - 2.4000000000000004
+    - -3.3
     - 0.0
+    - 0.0
+    type: cf21
+  cf238:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7EE
+    initial_position:
+    - -2.2
+    - 0.0
+    - 0.0
+    type: cf21
+  cf239:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7EF
+    initial_position:
+    - -1.1
+    - 0.0
+    - 0.0
+    type: cf21
+  cf240:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F0
+    initial_position:
+    - 0.0
+    - 0.0
+    - 0.0
+    type: cf21
+  cf241:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F1
+    initial_position:
+    - 1.1
+    - 0.0
+    - 0.0
+    type: cf21
+  cf242:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F2
+    initial_position:
+    - 2.2
+    - 0.0
+    - 0.0
+    type: cf21
+  cf243:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F3
+    initial_position:
+    - 3.3
+    - 0.0
+    - 0.0
+    type: cf21
+  cf244:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F4
+    initial_position:
+    - -2.75
+    - 1.3
+    - 0.0
+    type: cf21
+  cf245:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F5
+    initial_position:
+    - -1.65
+    - 1.3
+    - 0.0
+    type: cf21
+  cf246:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F6
+    initial_position:
+    - -0.55
+    - 1.3
+    - 0.0
+    type: cf21
+  cf247:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F7
+    initial_position:
+    - 0.55
+    - 1.3
+    - 0.0
+    type: cf21
+  cf248:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F8
+    initial_position:
+    - 1.65
+    - 1.3
+    - 0.0
+    type: cf21
+  cf249:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E7F9
+    initial_position:
+    - 2.75
+    - 1.3
     - 0.0
     type: cf21
 robot_types:

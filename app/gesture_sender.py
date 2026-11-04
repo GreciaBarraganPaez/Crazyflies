@@ -19,19 +19,22 @@ import mediapipe as mp
 from mediapipe.tasks import python as mp_python
 from mediapipe.tasks.python import vision
 
-from gesture_features import FEATURE_COLUMNS, normalize_landmarks
-from gesture_gate import StableGestureGate
+from app.gesture_features import FEATURE_COLUMNS, normalize_landmarks
+from app.gesture_gate import StableGestureGate
+
+PROJECT_ROOT=Path(__file__).resolve().parent.parent
 
 KNOWN = {'one', 'peace', 'three', 'ok', 'palm', 'fist'}
-ACTIONS = {'one': 'takeoff', 'peace': 'V', 'three': 'line', 'ok': 'circle',
-           'palm': 'controlled land', 'fist': 'hover/no new movement'}
+ACTIONS = {'one': 'takeoff', 'peace': 'front-view heart',
+           'three': 'front-view sine curve', 'ok': 'front-view spiral',
+           'palm': 'return to grid and land', 'fist': 'return to grid'}
 
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--model', type=Path, default=Path('models/gesture_svm_mirrored.joblib'))
-    p.add_argument('--landmarker', type=Path, default=Path('hand_landmarker.task'))
+    p.add_argument('--model', type=Path, default=PROJECT_ROOT/'models/gesture_svm_mirrored.joblib')
+    p.add_argument('--landmarker', type=Path, default=PROJECT_ROOT/'models/hand_landmarker.task')
     p.add_argument('--camera', type=int, default=0)
     p.add_argument('--threshold', type=float, default=0.8)
     p.add_argument('--hold', type=float, default=0.7, help='Required continuous recognition in seconds')
@@ -40,6 +43,7 @@ def main():
     p.add_argument('--host', help='Ubuntu WSL IPv4 address, required for --send')
     p.add_argument('--port', type=int, default=5055)
     args = p.parse_args()
+    actions=ACTIONS
     if args.send and not args.host:
         p.error('--send requires --host with the IP from `hostname -I` inside Ubuntu')
     if not 0 < args.threshold <= 1 or args.hold < 0.2 or args.cooldown < 0:
@@ -97,7 +101,7 @@ def main():
                         label = 'invalid hand'
                 event = gate.accept(label, now)
                 if event is not None:
-                    last_action = f'{event} -> {ACTIONS[event]}'
+                    last_action = f'{event} -> {actions[event]}'
                     if args.send and enabled:
                         udp.sendto(event.encode('ascii'), (args.host, args.port))
                         print('SENT:', last_action)

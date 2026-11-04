@@ -1,7 +1,7 @@
 """Preview trained SwarmGesture predictions with webcam. DOES NOT control drones.
 
 Usage:
-    python predict_live.py
+    python tools/gestures/predict_live.py
 
 Q or Escape: quit.
 """
@@ -19,19 +19,22 @@ import mediapipe as mp
 from mediapipe.tasks import python as mp_python
 from mediapipe.tasks.python import vision
 
-from gesture_features import FEATURE_COLUMNS, normalize_landmarks
+import sys
+PROJECT_ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(PROJECT_ROOT))
+from app.gesture_features import FEATURE_COLUMNS, normalize_landmarks
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", type=Path, default=Path("models/gesture_svm.joblib"))
-    parser.add_argument("--landmarker", type=Path, default=Path("hand_landmarker.task"))
+    parser.add_argument("--model", type=Path, default=PROJECT_ROOT/"models/gesture_svm.joblib")
+    parser.add_argument("--landmarker", type=Path, default=PROJECT_ROOT/"models/hand_landmarker.task")
     parser.add_argument("--camera", type=int, default=0)
     parser.add_argument("--threshold", type=float, default=0.65)
     args = parser.parse_args()
 
     if not args.model.exists():
-        raise SystemExit(f"Missing {args.model}. Run: python train_model.py")
+        raise SystemExit(f"Missing {args.model}. Run: python tools/gestures/train_model.py")
     if not args.landmarker.exists():
         raise SystemExit(f"Missing {args.landmarker}. Download the MediaPipe .task model first.")
     if not 0 <= args.threshold <= 1:

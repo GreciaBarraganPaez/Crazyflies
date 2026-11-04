@@ -1,0 +1,9 @@
+# Windows webcam, feature extraction and classifier tools.
+# ROS/Crazyswarm2 dependencies are supplied by the existing WSL installation.
+mediapipe
+opencv-python
+numpy
+scikit-learn
+joblib
+pandas
+matplotlib

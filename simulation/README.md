@@ -1,77 +1,22 @@
-# SwarmGesture — 7-drone quickstart
+# Simulation
 
-**Simulation only.** Open three terminals. Run everything from your existing GitLab project.
+Use the root Start-SwarmGesture.cmd for normal formations. Runtime code is grouped
+by responsibility; tests and native checks are separate and are not run at startup.
+Stepped heart/wave controllers remain the physics fallback.
 
-## Once after replacing the scripts
+From the project root, in separate WSL terminals:
 
-In Windows PowerShell:
+    bash simulation/launch/start_ros.sh preview
+    bash simulation/launch/start_bridge.sh animations
+    bash simulation/launch/start_markers.sh
 
-```powershell
-wsl -d SwarmGesture-Ubuntu
-```
+Offline checks:
 
-In Ubuntu:
+    python -m unittest discover -s simulation/tests -t . -p "test_*.py" -q
 
-```bash
-cd "/mnt/c/Users/Marco/SynologyDrive/Hof/STUDIUM/Semester II/AI Project/MediaPipe Hand Landmarker/simulation"
-python3 configure_swarm.py
-python3 formation_demo.py --dry-run
-python3 -m unittest test_gesture_bridge.py -v
-```
+Isolated native checks in configured WSL:
 
-## Terminal 1 — ROS 2 + RViz (Ubuntu)
+    ROS_DOMAIN_ID=88 python3 -m simulation.checks.check_blended_preview
+    python3 -m simulation.checks.check_continuous_backend
 
-```powershell
-wsl -d SwarmGesture-Ubuntu
-```
-
-```bash
-cd "/mnt/c/Users/Marco/SynologyDrive/Hof/STUDIUM/Semester II/AI Project/MediaPipe Hand Landmarker/simulation"
-ros2 launch crazyflie launch.py \
-  backend:=sim rviz:=True teleop:=False mocap:=False \
-  crazyflies_yaml_file:="$(realpath config/crazyflies.yaml)"
-```
-
-## Terminal 2 — Gesture bridge (Ubuntu)
-
-```powershell
-wsl -d SwarmGesture-Ubuntu
-```
-
-```bash
-cd "/mnt/c/Users/Marco/SynologyDrive/Hof/STUDIUM/Semester II/AI Project/MediaPipe Hand Landmarker/simulation"
-python3 gesture_bridge.py --run-sim --ros-args -p use_sim_time:=true
-```
-
-Type **`a` + Enter** to arm takeoff, **`x` + Enter** to land, or **`q` + Enter** to quit.
-
-## Terminal 3 — Webcam (Windows PowerShell)
-
-```powershell
-cd "C:\Users\Marco\SynologyDrive\Hof\STUDIUM\Semester II\AI Project\MediaPipe Hand Landmarker"
-$WSL_IP = ((wsl -d SwarmGesture-Ubuntu -- hostname -I) -split '\s+')[0]
-python .\gesture_sender.py --model models/gesture_svm_mirrored.joblib --send --host $WSL_IP
-```
-
-Click the camera window and press **E** to enable gesture sending.
-
-| Gesture | Action |
-|---|---|
-| One finger | Takeoff (arm first) |
-| Peace | V formation |
-| Three fingers | Line |
-| OK | Vertical circle (7 points) |
-| Open palm | Land |
-| Fist | No new movement |
-
-**Camera keys:** `E` = toggle sending; `X` = request landing; `Q` = quit.
-
-## Optional — automatic formation demo (no webcam)
-
-Stop the gesture bridge first; keep Terminal 1 (ROS + RViz) running. In Terminal 2:
-
-```bash
-python3 formation_demo.py --run-sim --ros-args -p use_sim_time:=true
-```
-
-**Important:** Stop the old ROS server and gesture bridge before starting the new seven-drone configuration. Use `backend:=sim` only. The planner has no active collision avoidance or verified hardware emergency stop.
+Do not run the manual live-preview checker alongside an interactive bridge.

@@ -10,6 +10,8 @@ What it does:
 """
 
 import time
+from pathlib import Path
+PROJECT_ROOT=Path(__file__).resolve().parents[2]
 
 import cv2
 import mediapipe as mp
@@ -18,7 +20,7 @@ from mediapipe.tasks.python import vision
 
 # Configuration
 options = vision.HandLandmarkerOptions(
-    base_options=mp_python.BaseOptions(model_asset_path="hand_landmarker.task"),        # pretrained model file
+    base_options=mp_python.BaseOptions(model_asset_path=str(PROJECT_ROOT/"models/hand_landmarker.task")),        # pretrained model file
     running_mode=vision.RunningMode.VIDEO,                                              # frames come from a video stream (enables tracking)
     num_hands=2,                                                                        # detect up to two hands
     min_hand_detection_confidence=0.5,                                                  # how sure the detector must be to report a hand

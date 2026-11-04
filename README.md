@@ -1,54 +1,24 @@
-# aiproject-ws26-swarmgesture
+# SwarmGesture
 
-Gesture-controlled Crazyflie swarm. A webcam tracks the hand, our own gesture
-classifier recognizes signs, and gestures or hand shapes become swarm
-formations, flown in simulation (ROS 2 + Gazebo) and on real Crazyflies.
+Nineteen simulated drones controlled by a Windows MediaPipe/SVM webcam app and
+ROS 2 Jazzy/Crazyswarm2 in WSL. Start **Start-SwarmGesture.cmd**.
 
-AI Project, Master AIR2, Hof University, Winter Semester 2026/27.
+Wait for Listening on UDP, enter a + Enter, enable sending with E in the webcam,
+then show one finger to take off. Peace selects a pulsing heart, three fingers a
+travelling sine wave, OK a rotating planar spiral. Fist returns to the airborne
+grid; palm requests grid-first landing. After takeoff, enter moon or helix in the
+bridge terminal for the moon outline or moving 3D corkscrew. demo cycles all five.
+Grounded speed 0.5..1.25 changes loop speed and disarms takeoff.
 
-## Team
+Python input modules live in app/, developer utilities in tools/gestures/,
+and simulation code is grouped into controllers/, servers/, core/, formations/,
+runtime/, visualization/, tests/ and checks/. Optional launch/recovery controls
+are available in SwarmGesture-Tools.cmd. Trained models and data are preserved.
+Place the separately downloaded MediaPipe asset at models/hand_landmarker.task.
 
-| Name | Focus |
-|---|---|
-| TODO | Gesture detection (Stage 1) |
-| TODO | ROS 2 / Gazebo (Stage 2) |
-| TODO | Hardware / evaluation (Stage 3) |
+From this folder:
 
-## Stages
+    python -m unittest discover -s simulation/tests -t . -p "test_*.py" -q
 
-1. **Hand and sign detection:** MediaPipe Hand Landmarker plus our own classifier.
-2. **ROS 2 and Gazebo:** formation planning and simulated swarm.
-3. **Real hardware:** the same pipeline on Crazyflies.
-
-## Setup (Stage 1, Windows)
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install mediapipe opencv-python numpy
-
-Invoke-WebRequest -Uri "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task" -OutFile "hand_landmarker.task"
-
-python hand_tracker.py
-```
-
-Press Esc to quit. The model file is not committed (see `.gitignore`).
-
-## Repository structure
-
-```
-.
-├── README.md
-├── .gitignore
-├── hand_tracker.py        # live hand tracking demo
-├── docs/
-│   ├── project.md         # project plan -> final report
-│   └── learning-journal.md
-├── data/                  # labeled gesture CSV files
-└── notebooks/             # Jupyter: training and evaluation
-```
-
-## Documentation
-
-- Project plan, requirements and decisions: `docs/project.md`
-- Biweekly progress and AI tool use: `docs/learning-journal.md`
+This is ideal preview only. Planned center spacing does not establish hardware
+rotor clearance or real flight safety. Existing manual arming is required.

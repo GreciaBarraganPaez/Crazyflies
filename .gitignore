@@ -29,3 +29,8 @@ log/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local validation output and synchronization duplicates
+reports/**/*.log
+reports/cleanup/publish-*
+docs/*_Conflict.md

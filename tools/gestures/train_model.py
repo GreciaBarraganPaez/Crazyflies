@@ -1,10 +1,10 @@
 """Train the first SwarmGesture SVM on Stage 1 landmark CSV files.
 
 Usage:
-    python train_model.py
-    python train_model.py --mode session
-    python train_model.py --mode person
-    python train_model.py --mirror-augment
+    python tools/gestures/train_model.py
+    python tools/gestures/train_model.py --mode session
+    python tools/gestures/train_model.py --mode person
+    python tools/gestures/train_model.py --mirror-augment
 
 A random split with one person is ONLY a smoke test. For a meaningful
 performance estimate, collect data from different people/sessions.
@@ -25,7 +25,10 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
-from gesture_features import FEATURE_COLUMNS
+import sys
+PROJECT_ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(PROJECT_ROOT))
+from app.gesture_features import FEATURE_COLUMNS
 
 
 def load_data(directory: Path) -> pd.DataFrame:
@@ -72,10 +75,10 @@ def find_group_split(y, groups, test_size=0.25):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--data", type=Path, default=Path("data/landmarks"))
+    parser.add_argument("--data", type=Path, default=PROJECT_ROOT/"data/landmarks")
     parser.add_argument("--mode", choices=("auto", "person", "session", "random"), default="auto")
-    parser.add_argument("--model", type=Path, default=Path("models/gesture_svm.joblib"))
-    parser.add_argument("--reports", type=Path, default=Path("reports"))
+    parser.add_argument("--model", type=Path, default=PROJECT_ROOT/"models/gesture_svm.joblib")
+    parser.add_argument("--reports", type=Path, default=PROJECT_ROOT/"reports")
     parser.add_argument(
         "--mirror-augment", action="store_true",
         help="Add x-mirrored copies to the training samples to help with opposite-hand gestures.",

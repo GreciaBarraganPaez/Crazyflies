@@ -1,0 +1,1 @@
+"""SwarmGesture checks package."""
