@@ -22,7 +22,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(sum(x==0 and y==0 for x,y,z in HOME),1)
 
     def test_front_plane_shapes(self):
-        self.assertEqual(set(validate_geometry()),{'grid','heart','sine','spiral','moon','helix'})
+        self.assertEqual(set(validate_geometry()),{'grid','heart','sine','spiral','moon','helix','clock'})
         for name,t in SHAPES.items():
             with self.subTest(name=name):
                 self.assertEqual(len(t),COUNT)

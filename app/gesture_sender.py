@@ -22,12 +22,14 @@ from mediapipe.tasks.python import vision
 from app.gesture_features import FEATURE_COLUMNS, normalize_landmarks
 from app.gesture_gate import StableGestureGate
 from app.hand_steering import HandSteering
+from app.clock_gesture import detects_wrist_point
 
 PROJECT_ROOT=Path(__file__).resolve().parent.parent
 
-KNOWN = {'one', 'peace', 'three', 'ok', 'palm', 'fist'}
+KNOWN = {'one', 'peace', 'three', 'ok', 'palm', 'fist', 'clock'}
 ACTIONS = {'one': 'takeoff', 'peace': 'front-view heart',
            'three': 'front-view sine curve', 'ok': 'front-view spiral',
+           'clock': 'analog clock showing local time',
            'palm': 'return to grid and land', 'fist': 'return to grid'}
 
 
@@ -61,7 +63,7 @@ def main():
     model = artifact['model']
     options = vision.HandLandmarkerOptions(
         base_options=mp_python.BaseOptions(model_asset_path=str(args.landmarker)),
-        running_mode=vision.RunningMode.VIDEO, num_hands=1,
+        running_mode=vision.RunningMode.VIDEO, num_hands=2,
         min_hand_detection_confidence=0.5, min_tracking_confidence=0.5,
     )
     cam = cv2.VideoCapture(args.camera)
@@ -90,14 +92,18 @@ def main():
                 result = detector.detect_for_video(mp_image, timestamp_ms)
                 label, score = 'no hand', 0.0
                 hand_x=hand_y=None
-                if result.hand_landmarks:
-                    hand = result.hand_landmarks[0]
+                hands = result.hand_landmarks
+                clock_signal = detects_wrist_point(hands)
+                if hands:
+                    hand = hands[0]
                     hand_x=1-sum(hand[i].x for i in (0,5,9,13,17))/5
                     hand_y=sum(hand[i].y for i in (0,5,9,13,17))/5
                     height, width = frame.shape[:2]
-                    for lm in hand:
-                        cv2.circle(frame, (int(lm.x * width), int(lm.y * height)), 3,
-                                   (0, 255, 0), -1)
+                    for hand_index, current_hand in enumerate(hands):
+                        color = (0, 255, 0) if hand_index == 0 else (255, 180, 0)
+                        for lm in current_hand:
+                            cv2.circle(frame, (int(lm.x * width), int(lm.y * height)), 3,
+                                       color, -1)
                     try:
                         features = normalize_landmarks(hand).reshape(1, -1)
                         probs = model.predict_proba(features)[0]
@@ -106,6 +112,8 @@ def main():
                         label = str(model.classes_[idx]) if score >= args.threshold else 'uncertain'
                     except ValueError:
                         label = 'invalid hand'
+                if clock_signal:
+                    label, score = 'clock', 1.0
                 event = gate.accept(label, now)
                 if args.snake_player:
                     turn=steering.update(hand_x,hand_y,now,pointing=label=='one' and enabled)

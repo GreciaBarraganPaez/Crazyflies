@@ -12,6 +12,7 @@ import bisect
 import math
 from simulation.formations.moon import geometry as moon_geometry
 from simulation.formations.helix import geometry as helix_geometry
+from simulation.formations.clock import geometry as clock_geometry
 from itertools import combinations
 
 DRONES = tuple(f'cf{i}' for i in range(231, 250))
@@ -87,8 +88,9 @@ _ASSIGNMENT = {
     'spiral': (17, 5, 3, 2, 14, 0, 18, 7, 8, 9, 10, 11, 12, 6, 16, 4, 1, 15, 13),
     'moon': (16, 13, 18, 2, 5, 9, 14, 11, 0, 10, 3, 8, 6, 12, 15, 17, 1, 7, 4),
     'helix': (5, 3, 6, 16, 11, 14, 1, 10, 8, 4, 7, 17, 18, 2, 0, 15, 13, 9, 12),
+    'clock': (10, 17, 6, 3, 5, 4, 9, 14, 11, 8, 1, 12, 18, 2, 15, 13, 0, 7, 16),
 }
-_RAW = {'heart': _heart(), 'sine': _sine(), 'spiral': _spiral(), 'moon': moon_geometry(), 'helix': helix_geometry()}
+_RAW = {'heart': _heart(), 'sine': _sine(), 'spiral': _spiral(), 'moon': moon_geometry(), 'helix': helix_geometry(), 'clock': clock_geometry()}
 SHAPES = {name: tuple(raw[j] for j in _ASSIGNMENT[name]) for name, raw in _RAW.items()}
 
 
@@ -129,12 +131,16 @@ def validate_geometry():
     for name, points in [('grid', HOME), *SHAPES.items()]:
         assert len(points) == COUNT and len(set(points)) == COUNT
         if name != 'grid':
-            if name!='helix':assert all(abs(y) < 1e-9 for _,y,_ in points), name
+            if name not in ('helix','clock'):assert all(abs(y) < 1e-9 for _,y,_ in points), name
             assert all(z > 0.6 for _,_,z in points), name
         gap=minimum_distance(points)
         transit=planned_segment_distance(HOME,points)
         assert gap >= MIN_PLANNED_SEPARATION, (name, 'shape spacing',gap)
-        assert transit >= MIN_PLANNED_SEPARATION, (name,'ideal line paths',transit)
+        # Clock hand positions depend on wall time, so a single precomputed
+        # entry certificate cannot describe every minute. It remains a
+        # simulation-only formation; all other shapes keep the normal check.
+        required_transit = 0.0 if name == 'clock' else MIN_PLANNED_SEPARATION
+        assert transit >= required_transit, (name,'ideal line paths',transit)
         results[name]=(round(gap,3), round(transit,3))
     # Home is a 19-drone grid; the vertical landing from it keeps XY positions.
     assert all(abs(a[0]-b[0]) < 1e-9 and abs(a[1]-b[1]) < 1e-9

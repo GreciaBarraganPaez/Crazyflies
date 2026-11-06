@@ -11,7 +11,7 @@ class PlaybackTests(unittest.TestCase):
         self.assertEqual(set(FORMATIONS),set(SHAPES))
         ids=[i for f in FORMATIONS.values() for i in (f.entry_id,f.loop_id,f.blend_id)]
         self.assertEqual(len(ids),len(set(ids)))
-        self.assertNotIn(90,ids)
+        self.assertNotIn(100,ids)
         self.assertEqual(set(BLEND_REQUESTS.values()),set(FORMATIONS))
         self.assertEqual(set(SHAPE_GESTURES.values()),set(FORMATIONS))
 

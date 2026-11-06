@@ -1,6 +1,6 @@
 """Simple time-based filter shared by the gesture sender and tests."""
 
-KNOWN = {'one', 'peace', 'three', 'ok', 'palm', 'fist'}
+KNOWN = {'one', 'peace', 'three', 'ok', 'palm', 'fist', 'clock'}
 
 
 class StableGestureGate:

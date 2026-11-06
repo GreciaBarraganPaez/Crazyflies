@@ -28,8 +28,9 @@ import sys
 PROJECT_ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(PROJECT_ROOT))
 from app.gesture_features import FEATURE_COLUMNS, normalize_landmarks
+from app.clock_gesture import detects_wrist_point
 
-LABELS = ("palm", "fist", "one", "peace", "three", "ok", "unknown")
+LABELS = ("palm", "fist", "clock", "one", "peace", "three", "ok", "unknown")
 COLUMNS = ["label", "person_id", "session_id", "handedness", "captured_utc", *FEATURE_COLUMNS]
 
 
@@ -76,7 +77,7 @@ def main():
     opts = vision.HandLandmarkerOptions(
         base_options=mp_python.BaseOptions(model_asset_path=str(model)),
         running_mode=vision.RunningMode.VIDEO,
-        num_hands=1,
+        num_hands=2,
         min_hand_detection_confidence=0.5,
         min_tracking_confidence=0.5,
     )
@@ -108,11 +109,14 @@ def main():
                 result = detector.detect_for_video(mp_image, timestamp_ms)
                 hands = result.hand_landmarks
 
+                clock_signal = detects_wrist_point(hands) if args.label == 'clock' else False
                 if hands:
                     h, w = image_bgr.shape[:2]
-                    for lm in hands[0]:
-                        cv2.circle(image_bgr, (int(lm.x * w), int(lm.y * h)), 3, (0, 255, 0), -1)
-                    if recording and now - last_capture >= args.interval:
+                    for hand_index, current_hand in enumerate(hands):
+                        color = (0, 255, 0) if hand_index == 0 else (255, 180, 0)
+                        for lm in current_hand:
+                            cv2.circle(image_bgr, (int(lm.x * w), int(lm.y * h)), 3, color, -1)
+                    if recording and now - last_capture >= args.interval and (args.label != 'clock' or clock_signal):
                         try:
                             features = normalize_landmarks(hands[0])
                         except ValueError:
@@ -136,8 +140,12 @@ def main():
                 state = "RECORDING" if recording else "PAUSED"
                 cv2.putText(image_bgr, f"{args.label} | {state} | saved: {saved}",
                             (10, 32), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 200, 0), 2)
+                if args.label == 'clock':
+                    clock_text = 'CLOCK GESTURE DETECTED' if clock_signal else 'Show closed wrist + pointing index'
+                    cv2.putText(image_bgr, clock_text, (10, 90), cv2.FONT_HERSHEY_SIMPLEX,
+                                0.6, (0, 220, 255) if clock_signal else (255, 255, 255), 2)
                 cv2.putText(image_bgr, "R: record/pause | Q/Esc: exit",
-                            (10, 62), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+                            (10, 62 if args.label != 'clock' else 120), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
                 cv2.imshow("SwarmGesture â€” record landmarks", image_bgr)
                 key = cv2.waitKey(1) & 0xFF
                 if key in (27, ord("q"), ord("Q")):

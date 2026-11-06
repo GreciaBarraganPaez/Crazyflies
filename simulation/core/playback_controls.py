@@ -22,7 +22,9 @@ class DemoSequence:
         if state in ('grounded','landing','to_grid'):
             self.stop()
             return None
-        order=tuple(FORMATIONS)
+        # Clock is selected by the dedicated wrist-facing gesture; keep it out
+        # of the legacy automatic demo cycle until the live model is retrained.
+        order=tuple(name for name in FORMATIONS if name != 'clock')
         if state=='ready':return GESTURES_BY_SHAPE[order[0]]
         if state!='showing' or not running:return None
         if shape!=self.shape or self.due is None:
