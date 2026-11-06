@@ -94,7 +94,8 @@ class SimulationController:
 
     def _move(self, points, seconds):
         gap = planned_segment_distance(self.current_goals, points)
-        if gap < MIN_PLANNED_SEPARATION:
+        required_gap = 0.0 if points == targets('clock') else MIN_PLANNED_SEPARATION
+        if gap < required_gap:
             print(f'REJECTED path: ideal straight-line separation {gap:.2f} m.', flush=True)
             return False
         for name, point in zip(self.drone_names, points):

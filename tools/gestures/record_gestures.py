@@ -29,8 +29,9 @@ PROJECT_ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(PROJECT_ROOT))
 from app.gesture_features import FEATURE_COLUMNS, normalize_landmarks
 from app.clock_gesture import detects_wrist_point
+from app.clock_features import PAIR_FEATURE_COLUMNS, normalize_pair
 
-LABELS = ("palm", "fist", "clock", "one", "peace", "three", "ok", "unknown")
+LABELS = ("palm", "fist", "clock", "clock_positive", "clock_negative", "one", "peace", "three", "ok", "unknown")
 COLUMNS = ["label", "person_id", "session_id", "handedness", "captured_utc", *FEATURE_COLUMNS]
 
 
@@ -51,11 +52,11 @@ def arguments():
     return args
 
 
-def append_sample(path: Path, row: dict):
+def append_sample(path: Path, row: dict, columns):
     path.parent.mkdir(parents=True, exist_ok=True)
     is_new = not path.exists() or path.stat().st_size == 0
     with path.open("a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=COLUMNS)
+        writer = csv.DictWriter(f, fieldnames=columns)
         if is_new:
             writer.writeheader()
         writer.writerow(row)
@@ -68,10 +69,13 @@ def main():
         raise SystemExit(
             f"Missing {model}. Download hand_landmarker.task using the command in README.md."
         )
+    clock_mode = args.label in ('clock', 'clock_positive', 'clock_negative')
+    if args.label == 'clock':
+        args.label = 'clock_positive'
     outfile = (
         Path(args.output)
         if args.output
-        else PROJECT_ROOT / "data" / "landmarks" / args.person / f"{args.label}.csv"
+        else PROJECT_ROOT / "data" / "landmarks" / args.person / ("clock_pairs.csv" if clock_mode else f"{args.label}.csv")
     )
 
     opts = vision.HandLandmarkerOptions(
@@ -109,16 +113,16 @@ def main():
                 result = detector.detect_for_video(mp_image, timestamp_ms)
                 hands = result.hand_landmarks
 
-                clock_signal = detects_wrist_point(hands) if args.label == 'clock' else False
+                clock_signal = detects_wrist_point(hands) if clock_mode else False
                 if hands:
                     h, w = image_bgr.shape[:2]
                     for hand_index, current_hand in enumerate(hands):
                         color = (0, 255, 0) if hand_index == 0 else (255, 180, 0)
                         for lm in current_hand:
                             cv2.circle(image_bgr, (int(lm.x * w), int(lm.y * h)), 3, color, -1)
-                    if recording and now - last_capture >= args.interval and (args.label != 'clock' or clock_signal):
+                    if recording and now - last_capture >= args.interval and (not clock_mode or (clock_signal if args.label == 'clock_positive' else not clock_signal)):
                         try:
-                            features = normalize_landmarks(hands[0])
+                            features = normalize_pair(hands) if clock_mode else (normalize_landmarks(hands[0]),)
                         except ValueError:
                             pass
                         else:
@@ -131,9 +135,14 @@ def main():
                                 "session_id": args.session,
                                 "handedness": handedness,
                                 "captured_utc": datetime.now(timezone.utc).isoformat(),
-                                **dict(zip(FEATURE_COLUMNS, map(float, features))),
                             }
-                            append_sample(outfile, row)
+                            if clock_mode:
+                                row.update(dict(zip(PAIR_FEATURE_COLUMNS,
+                                                    (float(value) for hand_features in features for value in hand_features))))
+                            else:
+                                row.update(dict(zip(FEATURE_COLUMNS, map(float, features[0]))))
+                            append_sample(outfile, row, (['label', 'person_id', 'session_id', 'handedness', 'captured_utc', *PAIR_FEATURE_COLUMNS]
+                                                        if clock_mode else COLUMNS))
                             saved += 1
                             last_capture = now
 
