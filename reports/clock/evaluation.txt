@@ -1,0 +1,17 @@
+Split: session
+Samples: 986
+Train: 762
+Test: 224
+Train accuracy: 0.9974
+Test accuracy: 0.9911
+Generalization gap: 0.0063
+
+                precision    recall  f1-score   support
+
+clock_negative       1.00      0.97      0.99        76
+clock_positive       0.99      1.00      0.99       148
+
+      accuracy                           0.99       224
+     macro avg       0.99      0.99      0.99       224
+  weighted avg       0.99      0.99      0.99       224
+

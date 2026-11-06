@@ -6,6 +6,25 @@
 **Team:** TODO · **Repository:** `aiproject-ws26-swarmgesture`  
 **Updated:** 27 October 2026 · **Next milestone:** MS2, 28/29 October
 
+## Current implementation update | 6 November 2026
+
+The planning snapshot below is retained for provenance. The implementation has
+since progressed to a nineteen-drone ROS 2/Crazyswarm2 simulation with continuous
+heart, sine, spiral, moon and helix formations, RViz markers, Windows webcam
+recognition and UDP control. The team also added automatic nineteen-drone Snake,
+an eight-drone hand-controlled Snake game and an analog clock formation.
+
+The clock uses a separate two-hand gesture: one hand is closed and the index
+finger of the other points at its wrist. Existing one-hand gestures remain
+unchanged. Paired clock recordings contain 126 normalized features, with a
+separate SVM at `models/clock_pair_svm.joblib`. The current session evaluation
+reaches 99.11% test accuracy with a 0.63 percentage-point train/test gap; see
+`reports/clock/` and [clock documentation](clock.md).
+
+The tested environment is Windows `.venv` plus Ubuntu 24.04/ROS 2 Jazzy and
+Crazyswarm2. The clock remains simulation-only until its time-dependent entry
+and transition routes are certified for physical flight.
+
 ## 1. Project idea
 
 We want to control a small swarm of Crazyflie drones with **hand gestures** instead of a controller. A webcam detects a hand, our model recognizes the gesture, and the drones move into a matching formation.
@@ -77,13 +96,13 @@ MediaPipe already detects **21 hand landmarks**; we are not training a new hand 
 |---|---|---|
 | W01 | Live MediaPipe hand tracking | **Done** |
 | W02 | Record labeled landmarks to CSV | **Doing** |
-| W03 | Simple rule-based gesture classifier | Planned |
+| W03 | Simple rule-based gesture classifier | **Done for baseline; clock has a separate two-hand detector** |
 | W04 | More gesture data, trained model and evaluation | **Doing** (data collection started) |
 | W05 | Stop gesture and keyboard emergency stop | Planned |
-| W06 | ROS 2 / Gazebo / CrazySim simulation setup | Planned |
+| W06 | ROS 2 / Gazebo / CrazySim simulation setup | **Done for current preview** |
 | W07 | Assign drones to formation positions safely | Planned |
-| W08 | Connect gesture recognition to simulation | Planned |
-| W09 | Document a one-command simulation start | Planned |
+| W08 | Connect gesture recognition to simulation | **Done for current UDP path** |
+| W09 | Document a one-command simulation start | **Done; see launching.md** |
 | W10 | Create formations from the hand shape | Later |
 | W11 | Real drone control and tests | Later; lab visit and protector printing started |
 

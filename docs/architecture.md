@@ -11,6 +11,7 @@ static-only startup instructions describe an older version.
 | --- | --- |
 | `simulation/core/formation_registry.py` | One declaration per formation: gesture, period, entry/loop/request IDs, interpolation resolution, motion function |
 | `simulation/formations/heart.py`, `sine.py`, `spiral.py`, `moon.py`, `helix.py` | Pure per-point position/velocity/acceleration models; no ROS, input or flight state |
+| `simulation/formations/clock.py` | Analog clock-face geometry and local-time hour/minute hand positions |
 | `simulation/core/static_shapes.py` | Fleet/grid geometry, canonical silhouettes and fixed drone assignment |
 | `simulation/core/continuous_trajectories.py` | Shared entry phase ramp, speed scaling and quintic compilation |
 | `simulation/core/blended_transitions.py` | Full-fleet C2 joins and conservative whole-curve center-distance/height certification |
@@ -24,6 +25,18 @@ static-only startup instructions describe an older version.
 | `simulation/visualization/formation_colors.py`, `simulation/visualization/drone_markers.py` | Geometry-fitted palettes and frame-locked RViz visualization |
 | `simulation/config/`, `simulation/launch/choreography_preview.launch.py`, `start_*.sh` | Fleet/RViz configuration and startup |
 | `simulation/test_*.py`, `check_*.py` | Offline tests and isolated/live integration checks |
+
+The Windows recognition boundary now has a parallel clock path:
+
+| Files | Responsibility |
+| --- | --- |
+| `app/clock_gesture.py` | Detects the two-hand wrist-pointing signal without changing existing one-hand labels |
+| `app/clock_features.py` | Produces stable 126-feature paired-hand vectors for model evaluation |
+| `tools/gestures/train_clock_model.py` | Trains a clock-only binary SVM and reports the train/test gap |
+
+The original gesture SVM remains a six-class, 63-feature model. The clock model
+is deliberately separate because the clock signal is relational: its meaning
+depends on the position of two hands, not one hand's shape alone.
 
 The motion compiler, request mapping, gesture selection and demo order all use
 the registry. Existing script entry points and canonical geometry stay in place
@@ -129,6 +142,16 @@ The older experiments and documentation remain preserved under
 `archive/legacy-2026-11-02/`, including checksums in its manifest. Models,
 landmark data and the MediaPipe asset are unchanged.
 
+## Clock-specific design note
+
+The clock currently uses the Europe/Berlin timezone by default and samples the
+time when its geometry is created at formation startup. Its resting geometry is
+validated for drone separation, but the hour/minute hand positions change with
+wall time, so one static grid-entry clearance certificate cannot cover every
+minute. This is acceptable for the current simulation demonstration only; a
+future physical-flight implementation must generate and certify time-aware
+routes before enabling the formation on hardware.
+
 
 ## Moon input and appearance
 
@@ -167,3 +190,11 @@ experimental pickup color pulse has been removed. Earlier circular/stop-at-node 
 multiple scenes, other board games and a broader scene policy
 interface remain future extensions; this does not turn the formation registry
 into a game-state container.
+
+### Team changes on 4 November 2026
+
+The shared runtime was extended with continuous formation playback and a moving
+3D helix. Snake was split into two scene families: an automatic nineteen-drone
+scene with growth, splitting and grid return, and an eight-drone hand-steered
+scene with its own fleet layout and planner. These additions preserve the
+default formation controller and use separate launchers.

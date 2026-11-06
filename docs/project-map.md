@@ -18,6 +18,19 @@ Implementation files and optional utilities are grouped by purpose.
 | `tools/`, `docs/` | Optional utilities and documentation | Keep |
 | `models/`, `data/`, `reports/`, `archive/` | Assets, data and project evidence | Keep |
 
+The clock extension adds paired-hand recognition without replacing the original
+one-hand pipeline:
+
+| Location | Purpose |
+| --- | --- |
+| `app/clock_gesture.py` | Live rule-based detector for a closed wrist plus pointing index |
+| `app/clock_features.py` | Normalizes two hands into 126 paired features |
+| `simulation/formations/clock.py` | Analog clock geometry and local-time hands |
+| `tools/gestures/train_clock_model.py` | Separate clock SVM training and evaluation |
+| `models/clock_pair_svm.joblib` | Clock-only trained model |
+| `reports/clock/` | Clock evaluation report and confusion matrix |
+| `docs/clock.md` | Clock controls, data collection and limitations |
+
 Python creates `__pycache__/` folders inside code folders. They are generated
 cache files, ignored by Git, and contain no source code or training samples.
 
@@ -57,6 +70,10 @@ its confirmation because it stops every WSL application, including Docker.
 | `tools/gestures/predict_live.py` | Shows classifier predictions without sending drone commands | Recognition diagnostics |
 | `tools/gestures/hand_tracker.py` | Original landmark-only webcam demo | Tracking diagnostics |
 
+`record_gestures.py` detects two hands for all recordings. Normal gesture labels
+continue to write the original 63-feature format; `clock_positive` and
+`clock_negative` write paired 126-feature rows to `clock_pairs.csv`.
+
 The last four tools are not needed to run formations. They remain useful for
 the AI project's training and evaluation work, so they were moved, not deleted.
 Feature extraction, filtering, steering logic and the trained models retain
@@ -74,3 +91,10 @@ launcher and all four webcam/developer tools use its new location.
 The simulation code is now grouped by responsibility too. See the
 [simulation folder guide](../simulation/README.md) and its separate tests/checks
 guides. Historical archives remain preserved.
+
+## Team additions on 4 November 2026
+
+The team's work this week added the shared continuous formation runtime and moving
+3D helix, the automatic nineteen-drone Snake scene, the separate eight-drone
+hand-controlled Snake scene, and validated snapshots under `archive/`. These
+are active capabilities in the root project; the archived folders are copies.

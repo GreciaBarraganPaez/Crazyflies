@@ -24,15 +24,27 @@ moon phases provide a first extension (full-to-half outline, selected by keyboar
 This covers the handover's first motion phase; visual acceptance of each update
 still belongs to the user in RViz.
 
+The analog clock is now implemented as a simulation formation. It uses a
+two-hand wrist-pointing gesture, local Europe/Berlin time at startup, paired
+landmark recording and a separate clock SVM. Session-held-out evaluation currently
+reports 99.11% test accuracy with a 0.63 percentage-point train/test gap. The
+clock remains simulation-only while its time-dependent entry routes are not yet
+certified for physical flight.
+
+The team also completed the first multi-role scene work this week: automatic
+nineteen-drone Snake with growth/splitting and grid return, plus a separate
+eight-drone hand-controlled Snake game. The shared continuous runtime now also
+supports the moving 3D helix, joined transitions and pose-synchronized colors.
+
 ## Next development stages
 
 | Stage | Product work | Required foundation |
 | --- | --- | --- |
-| More choreography | Moon phases, real-time analog clock | Additional geometry/role definitions; correct time zone for clock; readability at fleet size |
+| More choreography | Moon phases, real-time analog clock | Time-aware hand updates and certified entry/transition routes; readability at fleet size |
 | Interactive motion | Snake collecting drones into a following chain | Scene/game state, path history, assignment of head/chain/free drones, moving-path separation |
 | 3D scenes | Interlocking rings; ball through a goal | General 3D trajectories, coordinated role groups, space-time clearance, deliberate camera viewpoint |
 | Playable games | Tetris; gesture-controlled tic-tac-toe against a computer | Board state, turn logic, hand-position/cell selection, confirmation and clear visual feedback |
-| Recognition and evaluation | More distinct gestures; independent participant/session testing | Preserve existing controls, train/evaluate new labels, update the learning journal and academic results |
+| Recognition and evaluation | More distinct gestures; independent participant/session testing | Add more clock participants/sessions and integrate the paired SVM into live recognition after validation |
 
 The default preview is now separated from stepped physics inheritance.
 Before interactive games, introduce a scene interface with explicit roles and state.
