@@ -34,3 +34,7 @@ Thumbs.db
 reports/**/*.log
 reports/cleanup/publish-*
 docs/*_Conflict.md
+/tools/launch/Start-SwarmGesture.ps1
+/tools/launch/Start-SwarmGesture.ps1
+/Microsoft/Windows/PowerShell/ModuleAnalysisCache
+/tools/launch/Start-SwarmGesture.ps1
